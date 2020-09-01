@@ -20,7 +20,12 @@ module.exports = {
     return minify(html, {
       removeComments: true,
       removeEmptyAttributes: true,
-      removeEmptyElements: true
+      removeEmptyElements: true,
     });
-  }
+  },
+
+  genSummaryFromMd(md) {
+    const summary = md.substring(0, 200);
+    return this.md2html(summary);
+  },
 };
