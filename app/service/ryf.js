@@ -1,7 +1,11 @@
 const Service = require("egg").Service;
 const cheerio = require("cheerio");
 
-class RuanyifengService extends Service {
+/**
+ * 科技爱好者周刊
+ * http://www.ruanyifeng.com/blog/weekly/
+ */
+class RyfService extends Service {
   async _fetchPost(url) {
     const { ctx } = this;
     const res = await ctx.curl(url, { type: "GET", dataType: "text" });
@@ -9,17 +13,16 @@ class RuanyifengService extends Service {
     const $body = $("#alpha-inner");
     const title = $body.find("#page-title").text();
     const date = $body.find(".asset-footer .published").attr("title");
-    const from = "科技爱好者周刊";
-    const content = $body.find("#main-content").html();
-    const contentText = $body.find("#main-content").text();
+    const html = $body.find("#main-content").html();
+    const miniHtml = ctx.helper.compressHtml(html);
+    const markdown = ctx.helper.html2md(miniHtml);
     return {
       url,
       title,
       timestamp: +new Date(date),
-      from,
-      content,
-      description: contentText.length > 255 ? contentText.substring(0, 255) : contentText,
-      wordCount: contentText.length,
+      from: "科技爱好者周刊",
+      content: markdown,
+      wordCount: markdown.length,
       readCount: 0,
       likeCount: 0,
       dislikeCount: 0,
@@ -38,21 +41,22 @@ class RuanyifengService extends Service {
         weeklyUrls.push($(item).find("a").attr("href"));
       });
     for (let i = 0; i < weeklyUrls.length; i++) {
-      const post = await this._fetchPost(weeklyUrls[i]);
-      if (!post.content) {
-        continue;
+      try {
+        const post = await this._fetchPost(weeklyUrls[i]);
+        if (!post.content) {
+          continue;
+        }
+        const existed = await service.post.findOne({ where: { url: weeklyUrls[i] } });
+        if (existed) {
+          await service.post.update(post, { where: { url: weeklyUrls[i] } });
+        } else {
+          await service.post.create(post);
+        }
+      } catch (e) {
+        ctx.logger.error("Error while RyfService.fetchWeekly, stack: ", e);
       }
-      const existed = await service.post.findOne({ where: { url: weeklyUrls[i] } });
-      if (existed) {
-        await service.post.update(post, { where: { url: weeklyUrls[i] } });
-      } else {
-        await service.post.create(post);
-      }
-      console.log(`Insert ${weeklyUrls[i]} OK`);
     }
-    // const post = await this._fetchPost("http://www.ruanyifeng.com/blog/2020/08/weekly-issue-122.html");
-    // console.log(post.timestamp);
   }
 }
 
-module.exports = RuanyifengService;
+module.exports = RyfService;

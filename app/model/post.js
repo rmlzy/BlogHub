@@ -37,12 +37,6 @@ module.exports = (app) => {
       allowNull: false,
     },
 
-    // 摘要
-    description: {
-      type: STRING(500),
-      defaultValue: "",
-    },
-
     // 内容
     content: {
       type: TEXT,
