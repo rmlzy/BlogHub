@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ title }}</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <link rel="apple-touch-icon" href="/public/img/logo.jpg?v={{ version }}" />
+    <link rel="shortcut icon" href="/public/img/favicon.ico?v={{ version }}" />
+    <link rel="stylesheet" href="/public/css/codehub.css?v={{ version }}" />
+    {% block head %}{% endblock %}
+  </head>
+
+  <body class="codehub">
+    <header class="header">
+      <div class="content">
+        <div class="header__logo">Codehub</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="content">
+        {% block body %}{% endblock %}
+      </div>
+    </main>
+
+    <footer>
+      <div class="content">
+        <div class="footer">
+          <div>© 2020, Codehub</div>
+          <div>
+            <a href="" target="_blank">联系我</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    {% block foot %}{% endblock %}
+  </body>
+</html>
