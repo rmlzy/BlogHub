@@ -5,12 +5,8 @@
 <div>
     {% for post in posts %}
     <div class="post">
-        <a href="{{ post.url }}" target="_blank" class="post__title">{{ post.title }}&nbsp;&nbsp;<span>2 分钟前</span></a>
-        <div class="post__desc">
-            阿斯利康表示，其新冠病毒候选疫苗 AZD1222 将在美国扩大到三期临床试验，将有 3 万名成年人参加。这项名为 D8110C00001
-            的美国临床试验由 Biomedical Advanced Development Authority 资助 ...
-            阿斯利康表示，最近几周，该公司看到了越来越多有关疫苗安全性和可获得性的问题，并表示，该公司在快速行动，但不会走捷径。
-        </div>
+        <a href="{{ post.url }}" target="_blank" class="post__title">{{ post.title }}&nbsp;&nbsp;<span>{{ post.timeago }}</span></a>
+        <div class="post__desc">{{ post.description }}...</div>
     </div>
     {% endfor %}
 </div>

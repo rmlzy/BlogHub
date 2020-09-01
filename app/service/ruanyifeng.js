@@ -11,14 +11,15 @@ class RuanyifengService extends Service {
     const date = $body.find(".asset-footer .published").attr("title");
     const from = "科技爱好者周刊";
     const content = $body.find("#main-content").html();
-    const wordCount = $body.find("#main-content").text().length;
+    const contentText = $body.find("#main-content").text();
     return {
       url,
       title,
       timestamp: +new Date(date),
       from,
       content,
-      wordCount,
+      description: contentText.length > 255 ? contentText.substring(0, 255) : contentText,
+      wordCount: contentText.length,
       readCount: 0,
       likeCount: 0,
       dislikeCount: 0,
@@ -49,6 +50,8 @@ class RuanyifengService extends Service {
       }
       console.log(`Insert ${weeklyUrls[i]} OK`);
     }
+    // const post = await this._fetchPost("http://www.ruanyifeng.com/blog/2020/08/weekly-issue-122.html");
+    // console.log(post.timestamp);
   }
 }
 

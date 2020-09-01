@@ -20,8 +20,8 @@ module.exports = (app) => {
     },
 
     // 发布时间, 13位时间戳
-    ts: {
-      type: INTEGER(20),
+    timestamp: {
+      type: STRING(20),
       allowNull: false,
     },
 

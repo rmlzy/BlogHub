@@ -10,7 +10,7 @@ class ViewController extends Controller {
     try {
       posts = await service.post.findAll({ order: [["timestamp", "DESC"]] });
       posts = posts.map((post) => {
-        post.timeago = timeago.format(post.timestamp);
+        post.timeago = timeago.format(post.timestamp, "zh_CN");
         return post;
       });
     } catch (e) {
