@@ -17,6 +17,7 @@ class ApiController extends Controller {
       res.list = res.list.map((post) => {
         post.timeago = ctx.helper.timeago(post.timestamp);
         post.summary = ctx.helper.genSummaryFromMd(post.content);
+        delete post.content;
         return post;
       });
       ctx.body = {
