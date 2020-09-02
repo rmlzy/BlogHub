@@ -67,7 +67,7 @@ class QwzkService extends Service {
         console.log(`✅ (${i + 1}/${list.length}) ${item.url}`);
       } catch (e) {
         console.log(`❌ (${i + 1}/${list.length}) ${item.url}`);
-        ctx.logger.error("Error while YinwangService.fetchWeekly, stack: ", e);
+        ctx.logger.error("Error while YinwangService.refresh, stack: ", e);
       }
     }
   }

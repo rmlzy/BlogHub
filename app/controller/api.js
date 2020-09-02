@@ -5,15 +5,15 @@ const Controller = require("egg").Controller;
 class ApiController extends Controller {
   async load() {
     const { ctx, service } = this;
-    const weekly = await service.ryf.refresh(true);
+    const weekly = await service.youzan.refresh(false);
     ctx.body = { success: true, message: "操作成功", data: weekly };
   }
 
   async post() {
     const { ctx, service } = this;
     try {
-      const { page, size } = ctx.request.query;
-      const res = await service.post.list({ page: Number(page), size: Number(size) });
+      const { category, page, size } = ctx.request.query;
+      const res = await service.post.list({ category, page: Number(page), size: Number(size) });
       res.list = res.list.map((post) => {
         post.timeago = ctx.helper.timeago(post.timestamp);
         post.summary = ctx.helper.genSummaryFromMd(post.content);

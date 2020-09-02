@@ -3,8 +3,8 @@
 const timeago = require("timeago.js");
 const minify = require("html-minifier-terser").minify;
 const showdown = require("showdown");
-const jsdom = require("jsdom");
-const dom = new jsdom.JSDOM();
+const TurndownService = require("turndown");
+const turndownService = new TurndownService();
 const converter = new showdown.Converter();
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   html2md(html) {
-    return converter.makeMarkdown(html, dom.window.document);
+    return turndownService.turndown(html);
   },
 
   compressHtml(html) {
@@ -32,5 +32,10 @@ module.exports = {
 
   timeago(ts) {
     return timeago.format(ts, "zh_CN");
-  }
+  },
+
+  getCommonDate(date) {
+    if (!date) return "";
+    return date.replace("年", "-").replace("月", "-").replace("日", "");
+  },
 };

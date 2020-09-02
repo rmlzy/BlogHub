@@ -2,21 +2,21 @@ const Service = require("egg").Service;
 const cheerio = require("cheerio");
 
 /**
- * 王银的博客
- * http://www.yinwang.org/
+ * 有赞技术团队
+ * https://tech.youzan.com/
  */
-class YinwangService extends Service {
+class YouzanService extends Service {
   async _savePost({ title, url, date }) {
     const { ctx, service } = this;
     const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data, { decodeEntities: false });
-    const html = $(".inner").html();
+    const html = $("article.post .post-content").html();
     const markdown = ctx.helper.html2md(html);
     const post = {
       url,
       title,
-      timestamp: +new Date(date),
-      from: "当然我在扯淡",
+      timestamp: +new Date(ctx.helper.getCommonDate(date)),
+      from: "有赞技术团队",
       content: markdown,
       wordCount: markdown.length,
       readCount: 0,
@@ -34,23 +34,36 @@ class YinwangService extends Service {
     }
   }
 
-  async _fetchPostList() {
+  async _fetchTotalPage() {
     const { ctx } = this;
-    const url = "http://www.yinwang.org";
-    const list = [];
+    const url = "https://tech.youzan.com/";
     const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data);
-    $(".outer .list-group li")
-      .get()
-      .map((item) => {
-        let date = $(item).find(".date").text();
-        date = date.replace("年", "-").replace("月", "-").replace("日", "");
-        list.push({
-          title: $(item).find("a").text().trim(),
-          url: url + $(item).find("a").attr("href"),
-          date,
+    const lastStr = $("#pagination .pagination-info").text();
+    const totalStr = lastStr.replace("Page 1 of ", "");
+    const total = Number(totalStr);
+    return isNaN(total) ? 0 : total;
+  }
+
+  async _fetchPostList() {
+    const { ctx } = this;
+    const total = await this._fetchTotalPage();
+    const list = [];
+    for (let i = 1; i <= total; i++) {
+      const url = `https://tech.youzan.com/page/${i}/`;
+      console.log(`🔨 (${i + 1}/${total}) ${url}`);
+      const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
+      const $ = cheerio.load(res.data);
+      $("#post-index article.post")
+        .get()
+        .map((item) => {
+          list.push({
+            title: $(item).find(".post-title a").text().trim(),
+            url: "https://tech.youzan.com" + $(item).find(".post-title a").attr("href"),
+            date: $(item).find(".post-date").text()
+          });
         });
-      });
+    }
     return list;
   }
 
@@ -69,10 +82,10 @@ class YinwangService extends Service {
         console.log(`✅ (${i + 1}/${list.length}) ${item.url}`);
       } catch (e) {
         console.log(`❌ (${i + 1}/${list.length}) ${item.url}`);
-        ctx.logger.error("Error while YinwangService.refresh, stack: ", e);
+        ctx.logger.error("Error while YouzanService.refresh, stack: ", e);
       }
     }
   }
 }
 
-module.exports = YinwangService;
+module.exports = YouzanService;

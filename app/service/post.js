@@ -1,16 +1,22 @@
 const Service = require("egg").Service;
 
 class PostService extends Service {
-  async list({ page = 1, size = 10 }) {
+  async list({ category, page = 1, size = 10 }) {
     const { ctx } = this;
+    let where = {};
+    if (category) {
+      where = { from: category };
+    }
     const { count, rows } = await ctx.model.Post.findAndCountAll({
       order: [["timestamp", "DESC"]],
+      where,
       raw: true,
       limit: size,
       offset: (page - 1) * size,
       attributes: { exclude: ["content"] },
     });
     return {
+      category,
       total: count,
       list: rows,
       page: Number(page),

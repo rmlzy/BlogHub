@@ -2,27 +2,60 @@
 
 <!-- Body -->
 {% block body %}
-<div id="js_postList"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-16 col-sm-24 col-xs-24">
+      <div id="js_postList" class="post__list"></div>
+      <div id="js_loadMore" class="load-more">加载更多</div>
+    </div>
+    <div class="col-md-8 hidden-sm hidden-xs">
+      <div class="side">
+        <div class="side__title">分类</div>
+        <div class="side__list">
+          <div class="row">
+            {% for source in sources %}
+            <div class="col-md-12">
+              <div class="logo-wrapper js_category" data-name="{{ source.name }}">
+                {% if source.logo %}
+                <img src="{{ source.logo }}" alt="{{ source.name }}" />
+                {% else %}
+                <div>{{ source.name }}</div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 <!-- Foot -->
 {% block foot %}
 <script>
   $(document).ready(function () {
+    var currentCategory = "";
     var currentPage = 1;
-    var currentSize = 20;
+    var currentSize = 30;
     var total = 0;
     var $list = $("#js_postList");
-    fetchData(currentPage, currentSize);
+    var loading = false;
+    fetchData(currentCategory, currentPage, currentSize);
 
-    function fetchData(page, size) {
+    function fetchData(category, page, size, cb) {
       $.ajax({
         type: "GET",
-        url: "/api/post?page=" + page + "&size=" + size,
+        url: "/api/post?category=" + category + "&page=" + page + "&size=" + size,
         success: function (res) {
           if (!res.success) {
             return;
           }
+          total = res.data.total;
+          currentCategory = res.data.category;
+          currentPage = res.data.page;
+          currentSize = res.data.size;
           var htmls = [];
           for (let i = 0; i < res.data.list.length; i++) {
             var post = res.data.list[i];
@@ -40,9 +73,31 @@
             );
           }
           $list.append(htmls.join(""));
+          if (cb) cb();
         },
       });
     }
+
+    $("#js_loadMore").on("click", function (evt) {
+      if (loading) return;
+      loading = true;
+      var $this = $(this);
+      $this.text("加载中...");
+      fetchData(currentCategory, currentPage + 1, currentSize, function () {
+        loading = false;
+        $this.text("加载更多");
+      });
+    });
+
+    $(".js_category").on("click", function (evt) {
+      currentCategory = $(this).attr("data-name");
+      currentPage = 1;
+      currentSize = 30;
+      $list.html("");
+      $(".js_category").removeClass("active");
+      $(this).addClass("active");
+      fetchData(currentCategory, currentPage, currentSize);
+    });
   });
 </script>
 {% endblock %}

@@ -2,21 +2,22 @@ const Service = require("egg").Service;
 const cheerio = require("cheerio");
 
 /**
- * 王银的博客
- * http://www.yinwang.org/
+ * 美团技术团队
+ * https://tech.meituan.com/
  */
-class YinwangService extends Service {
-  async _savePost({ title, url, date }) {
+class MeituanService extends Service {
+  async _savePost({ title, url }) {
     const { ctx, service } = this;
     const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data, { decodeEntities: false });
-    const html = $(".inner").html();
+    const html = $(".post-container .post-content").html();
+    const date = $(".post-container .meta-box .m-post-date").text();
     const markdown = ctx.helper.html2md(html);
     const post = {
       url,
       title,
-      timestamp: +new Date(date),
-      from: "当然我在扯淡",
+      timestamp: +new Date(ctx.helper.getCommonDate(date)),
+      from: "美团技术团队",
       content: markdown,
       wordCount: markdown.length,
       readCount: 0,
@@ -36,19 +37,16 @@ class YinwangService extends Service {
 
   async _fetchPostList() {
     const { ctx } = this;
-    const url = "http://www.yinwang.org";
+    const url = "https://tech.meituan.com/archives";
     const list = [];
     const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data);
-    $(".outer .list-group li")
+    $(".post-container .post-title")
       .get()
       .map((item) => {
-        let date = $(item).find(".date").text();
-        date = date.replace("年", "-").replace("月", "-").replace("日", "");
         list.push({
           title: $(item).find("a").text().trim(),
-          url: url + $(item).find("a").attr("href"),
-          date,
+          url: "https://tech.meituan.com" + $(item).find("a").attr("href"),
         });
       });
     return list;
@@ -69,10 +67,10 @@ class YinwangService extends Service {
         console.log(`✅ (${i + 1}/${list.length}) ${item.url}`);
       } catch (e) {
         console.log(`❌ (${i + 1}/${list.length}) ${item.url}`);
-        ctx.logger.error("Error while YinwangService.refresh, stack: ", e);
+        ctx.logger.error("Error while MeituanService.refresh, stack: ", e);
       }
     }
   }
 }
 
-module.exports = YinwangService;
+module.exports = MeituanService;

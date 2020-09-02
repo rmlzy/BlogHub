@@ -5,7 +5,33 @@ const Controller = require("egg").Controller;
 class ViewController extends Controller {
   async renderPosts() {
     const { ctx } = this;
-    await ctx.render("posts.html");
+    const sources = [
+      {
+        name: "美团技术团队",
+        logo: "/public/img/meituan-logo.jpg",
+      },
+      {
+        name: "滴滴云博客",
+        logo: "/public/img/didi-logo.png",
+      },
+      {
+        name: "奇舞周刊",
+        logo: "/public/img/qwzk-logo.png",
+      },
+      {
+        name: "科技爱好者周刊",
+        logo: "",
+      },
+      {
+        name: "当然我在扯淡",
+        logo: "/public/img/yinwang-logo.jpg",
+      },
+      {
+        name: "有赞技术团队",
+        logo: "/public/img/youzan-logo.jpg",
+      },
+    ];
+    await ctx.render("posts.html", { title: "Codehub", sources });
   }
 
   async renderPost() {
@@ -18,7 +44,7 @@ class ViewController extends Controller {
     } catch (e) {
       ctx.logger.error("Error while ViewController.renderPost, stack: ", e);
     }
-    await ctx.render("post.html", { blog });
+    await ctx.render("post.html", { title: blog.title, blog });
   }
 }
 

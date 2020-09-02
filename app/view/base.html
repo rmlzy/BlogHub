@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>{{ title }}</title>
-    <meta name="description" content="" />
+    <meta name="description" content="让阅读更有效率" />
     <meta name="author" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta property="og:title" content="" />
@@ -13,25 +13,22 @@
     <link rel="apple-touch-icon" href="/public/img/logo.jpg?v={{ version }}" />
     <link rel="shortcut icon" href="/public/img/favicon.ico?v={{ version }}" />
     <link rel="stylesheet" href="/public/css/codehub.css?v={{ version }}" />
-    <link rel="stylesheet" href="/public/css/markdown.css?v={{ version }}" />
     {% block head %}{% endblock %}
   </head>
 
-  <body class="codehub">
+  <body class="codehub theme-light">
     <header class="header">
-      <div class="content">
-        <div class="header__logo">Codehub <span>Beta</span></div>
+      <div class="container">
+        <a class="header__logo" href="/">Codehub <span>让阅读更有效率</span></a>
       </div>
     </header>
 
     <main>
-      <div class="content">
-        {% block body %}{% endblock %}
-      </div>
+      {% block body %}{% endblock %}
     </main>
 
     <footer>
-      <div class="content">
+      <div class="container">
         <div class="footer">
           <div>© 2020, Codehub</div>
           <div>
