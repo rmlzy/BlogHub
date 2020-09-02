@@ -1,5 +1,6 @@
 "use strict";
 
+const timeago = require("timeago.js");
 const minify = require("html-minifier-terser").minify;
 const showdown = require("showdown");
 const jsdom = require("jsdom");
@@ -25,7 +26,11 @@ module.exports = {
   },
 
   genSummaryFromMd(md) {
-    const summary = md.substring(0, 200);
-    return this.md2html(summary);
+    // return this.md2html(summary);
+    return "";
   },
+
+  timeago(ts) {
+    return timeago.format(ts, "zh_CN");
+  }
 };

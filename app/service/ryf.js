@@ -6,17 +6,16 @@ const cheerio = require("cheerio");
  * http://www.ruanyifeng.com/blog/weekly/
  */
 class RyfService extends Service {
-  async _fetchPost(url) {
-    const { ctx } = this;
+  async _savePost({ url }) {
+    const { ctx, service } = this;
     const res = await ctx.curl(url, { type: "GET", dataType: "text" });
     const $ = cheerio.load(res.data, { decodeEntities: false });
     const $body = $("#alpha-inner");
     const title = $body.find("#page-title").text();
     const date = $body.find(".asset-footer .published").attr("title");
     const html = $body.find("#main-content").html();
-    const miniHtml = ctx.helper.compressHtml(html);
-    const markdown = ctx.helper.html2md(miniHtml);
-    return {
+    const markdown = ctx.helper.html2md(html);
+    const post = {
       url,
       title,
       timestamp: +new Date(date),
@@ -27,6 +26,15 @@ class RyfService extends Service {
       likeCount: 0,
       dislikeCount: 0,
     };
+    if (!post.content) {
+      return;
+    }
+    const existed = await service.post.findOne({ where: { url } });
+    if (existed) {
+      await service.post.update(post, { where: { url } });
+    } else {
+      await service.post.create(post);
+    }
   }
 
   async fetchWeekly() {
@@ -54,6 +62,42 @@ class RyfService extends Service {
         }
       } catch (e) {
         ctx.logger.error("Error while RyfService.fetchWeekly, stack: ", e);
+      }
+    }
+  }
+
+  async _fetchPostList() {
+    const { ctx } = this;
+    const url = "http://www.ruanyifeng.com/blog/weekly/";
+    const list = [];
+    const res = await ctx.curl(url, { type: "GET", dataType: "text" });
+    const $ = cheerio.load(res.data);
+    $("#alpha-inner .module-list-item")
+      .get()
+      .map((item) => {
+        list.push({
+          url: $(item).find("a").attr("href"),
+        });
+      });
+    return list;
+  }
+
+  async refresh(jumpExisted) {
+    const { ctx, service } = this;
+    const list = await this._fetchPostList();
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+      const existed = await service.post.findOne({ where: { url: item.url } });
+      if (existed && jumpExisted) {
+        console.log(`👌 (${i + 1}/${list.length}) ${item.url}`);
+        continue;
+      }
+      try {
+        await this._savePost(item);
+        console.log(`✅ (${i + 1}/${list.length}) ${item.url}`);
+      } catch (e) {
+        console.log(`❌ (${i + 1}/${list.length}) ${item.url}`);
+        ctx.logger.error("Error while YinwangService.fetchWeekly, stack: ", e);
       }
     }
   }

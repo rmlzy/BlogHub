@@ -55,12 +55,11 @@ a {
   border-bottom: none;
 }
 .post__title {
-  margin-right: 15px;
   color: #333;
-  line-height: 30px;
   font-weight: 500;
   font-size: 17px;
-  padding-bottom: 8px;
+  line-height: 30px;
+  margin-bottom: 8px;
 }
 .post__title:hover {
   color: #10579e;
@@ -80,6 +79,9 @@ a {
 }
 .post__desc p {
   margin: 0;
+}
+.post__meta {
+  color: #999;
 }
 @media screen and (min-width: 769px) {
   .content {

@@ -6,4 +6,5 @@ module.exports = app => {
   router.get('/post/:id', controller.view.renderPost);
 
   router.get('/api/load', controller.api.load);
+  router.get('/api/post', controller.api.post);
 };

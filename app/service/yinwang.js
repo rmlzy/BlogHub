@@ -2,21 +2,21 @@ const Service = require("egg").Service;
 const cheerio = require("cheerio");
 
 /**
- * 奇舞周刊
- * https://weekly.75.team/
+ * 王银的博客
+ * http://www.yinwang.org/
  */
-class QwzkService extends Service {
+class YinwangService extends Service {
   async _savePost({ title, url, date }) {
     const { ctx, service } = this;
-    const res = await ctx.curl(url, { type: "GET", dataType: "text" });
+    const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data, { decodeEntities: false });
-    const html = $("main .content").html();
+    const html = $(".inner").html();
     const markdown = ctx.helper.html2md(html);
     const post = {
       url,
       title,
       timestamp: +new Date(date),
-      from: "奇舞周刊",
+      from: "当然我在扯淡",
       content: markdown,
       wordCount: markdown.length,
       readCount: 0,
@@ -36,17 +36,19 @@ class QwzkService extends Service {
 
   async _fetchPostList() {
     const { ctx } = this;
-    const url = "https://weekly.75.team";
+    const url = "http://www.yinwang.org";
     const list = [];
-    const res = await ctx.curl(url, { type: "GET", dataType: "text" });
+    const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data);
-    $(".issues .issue-list li")
+    $(".outer .list-group li")
       .get()
       .map((item) => {
+        let date = $(item).find(".date").text();
+        date = date.replace("年", "-").replace("月", "-").replace("日", "");
         list.push({
           title: $(item).find("a").text().trim(),
           url: url + $(item).find("a").attr("href"),
-          date: $(item).find("time").attr("datetime"),
+          date,
         });
       });
     return list;
@@ -73,4 +75,4 @@ class QwzkService extends Service {
   }
 }
 
-module.exports = QwzkService;
+module.exports = YinwangService;
