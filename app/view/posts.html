@@ -61,14 +61,14 @@
             var post = res.data.list[i];
             // prettier-ignore
             htmls.push(
-              '<div class="post">' +
-                '<a class="post__title" href="/post/' + post.id + '.html">' + post.title + "</a>" +
-                '<div class="post__desc">' + post.summary + "</div>" +
-                '<div class="post__meta">' +
-                "   <span>" +post.from + "</span>" +
-                "   <span>&nbsp;/&nbsp;</span>" +
-                "   <span>" +post.timeago + "</span>" +
-                "</div>" +
+                '<div class="post">' +
+                '   <a class="post__title" href="/post/' + post.id + '.html">' + post.title + "</a>" +
+                '   <div class="post__desc">' + post.summary + "</div>" +
+                '   <div class="post__meta">' +
+                "       <span>" + post.from + "</span>" +
+                "       <span>&nbsp;/&nbsp;</span>" +
+                "       <span>" + post.timeago + "</span>" +
+                "   </div>" +
                 "</div>"
             );
           }

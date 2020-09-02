@@ -25,9 +25,11 @@ module.exports = {
     });
   },
 
-  genSummaryFromMd(md) {
-    // return this.md2html(summary);
-    return "";
+  genSummaryFromMd(md = "") {
+    if (md.length < 255) {
+      return md;
+    }
+    return "摘要算法尚未完成!";
   },
 
   timeago(ts) {

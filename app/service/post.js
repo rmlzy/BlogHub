@@ -13,7 +13,6 @@ class PostService extends Service {
       raw: true,
       limit: size,
       offset: (page - 1) * size,
-      attributes: { exclude: ["content"] },
     });
     return {
       category,
