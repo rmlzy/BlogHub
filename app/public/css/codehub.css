@@ -2535,7 +2535,7 @@ body {
 }
 .codehub .header__logo span {
   font-size: 14px;
-  color: #999;
+  color: #737373;
 }
 .codehub main {
   min-height: 800px;
@@ -2548,9 +2548,6 @@ body {
   line-height: 80px;
   font-size: 14px;
   color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 .post {
   padding: 30px 10px;
