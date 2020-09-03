@@ -29,7 +29,8 @@
 <script>
   $(document).ready(function () {
     var gallery = new Viewer(document.getElementById("js_article"));
-    $("#js_article img").on("click", function () {
+    $("#js_article img").on("click", function (evt) {
+      evt.stopPropagation();
       gallery.show();
     });
   });
