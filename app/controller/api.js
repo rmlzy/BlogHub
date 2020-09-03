@@ -5,8 +5,7 @@ const Controller = require("egg").Controller;
 class ApiController extends Controller {
   async load() {
     const { ctx, service } = this;
-    const weekly = await service.qiniu.refresh(true);
-    ctx.body = { success: true, message: "操作成功", data: weekly };
+    ctx.body = { success: true, message: "操作成功" };
   }
 
   async post() {

@@ -19,7 +19,6 @@ class RefreshSchedule extends Subscription {
       await ctx.service.disdev.refresh(true);
       await ctx.service.laruence.refresh(true);
       await ctx.service.meituan.refresh(true);
-      await ctx.service.qiniu.refresh(true);
       await ctx.service.qwzk.refresh(true);
       await ctx.service.ryf.refresh(true);
       await ctx.service.yinwang.refresh(true);
