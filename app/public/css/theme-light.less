@@ -1,6 +1,8 @@
-.theme-light {
-  color: #333;
-  background: #fff;
+@media (prefers-color-scheme: light) {
+  body {
+    color: #333;
+    background: #fff;
+  }
 
   a {
     color: #246394;
@@ -19,6 +21,23 @@
   footer {
     color: #737373;
     border-top: 1px solid #eaecef;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar:horizontal {
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: #246394;
   }
 
   .header {
