@@ -5,7 +5,7 @@ const Controller = require("egg").Controller;
 class ApiController extends Controller {
   async load() {
     const { ctx, service } = this;
-    const weekly = await service.youzan.refresh(false);
+    const weekly = await service.disdev.refresh(true);
     ctx.body = { success: true, message: "操作成功", data: weekly };
   }
 
