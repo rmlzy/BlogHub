@@ -30,6 +30,18 @@ class ViewController extends Controller {
         name: "有赞技术团队",
         logo: "/public/img/youzan-logo.jpg",
       },
+      {
+        name: "CODING HORROR",
+        logo: "/public/img/codinghorror-logo.jpg",
+      },
+      {
+        name: "DiscoverDev",
+        logo: "/public/img/disdev-logo.jpg",
+      },
+      {
+        name: "风雪之隅",
+        logo: "",
+      },
     ];
     await ctx.render("posts.html", { title: "Codehub", sources });
   }

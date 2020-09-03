@@ -37,35 +37,6 @@ class RyfService extends Service {
     }
   }
 
-  async fetchWeekly() {
-    const { ctx, service } = this;
-    const url = "http://www.ruanyifeng.com/blog/weekly/";
-    const weeklyUrls = [];
-    const res = await ctx.curl(url, { type: "GET", dataType: "text" });
-    const $ = cheerio.load(res.data);
-    $("#alpha-inner .module-list-item")
-      .get()
-      .map((item) => {
-        weeklyUrls.push($(item).find("a").attr("href"));
-      });
-    for (let i = 0; i < weeklyUrls.length; i++) {
-      try {
-        const post = await this._fetchPost(weeklyUrls[i]);
-        if (!post.content) {
-          continue;
-        }
-        const existed = await service.post.findOne({ where: { url: weeklyUrls[i] } });
-        if (existed) {
-          await service.post.update(post, { where: { url: weeklyUrls[i] } });
-        } else {
-          await service.post.create(post);
-        }
-      } catch (e) {
-        ctx.logger.error("Error while RyfService.fetchWeekly, stack: ", e);
-      }
-    }
-  }
-
   async _fetchPostList() {
     const { ctx } = this;
     const url = "http://www.ruanyifeng.com/blog/weekly/";
