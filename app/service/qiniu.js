@@ -2,21 +2,21 @@ const Service = require("egg").Service;
 const cheerio = require("cheerio");
 
 /**
- * 风雪之隅
- * https://www.laruence.com/
+ * 七牛云博客
+ * https://blog.qiniu.com/
  */
-class LaruenceService extends Service {
+class QiniuService extends Service {
   async _savePost({ title, url, date }) {
     const { ctx, service } = this;
     const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data, { decodeEntities: false });
-    const html = $("#loop-container .post-content").html();
+    const html = $(".blog-html").html();
     const markdown = ctx.helper.html2md(html);
     const post = {
       url,
       title,
       timestamp: +new Date(ctx.helper.getCommonDate(date)),
-      from: "风雪之隅",
+      from: "七牛云博客",
       content: markdown,
       wordCount: markdown.length,
       readCount: 0,
@@ -36,10 +36,10 @@ class LaruenceService extends Service {
 
   async _fetchTotalPage() {
     const { ctx } = this;
-    const url = "https://www.laruence.com/";
+    const url = "https://blog.qiniu.com/archives/all";
     const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
     const $ = cheerio.load(res.data);
-    const totalStr = $(".nav-links a.page-numbers").eq(1).text().trim();
+    const totalStr = $(".pagination .page").eq(6).text().trim();
     const total = Number(totalStr);
     return isNaN(total) ? 0 : total;
   }
@@ -49,17 +49,17 @@ class LaruenceService extends Service {
     const total = await this._fetchTotalPage();
     const list = [];
     for (let i = 1; i <= total; i++) {
-      const url = `https://www.laruence.com/page/${i}`;
+      const url = `https://blog.qiniu.com/archives/all?page=${i}`;
       console.log(`🔨 (${i}/${total}) ${url}`);
       const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
       const $ = cheerio.load(res.data);
-      $("#loop-container .post")
+      $(".blog-content")
         .get()
         .map((item) => {
           list.push({
-            title: $(item).find(".post-title a").text().trim(),
-            url: $(item).find(".post-title a").attr("href"),
-            date: $(item).find(".post-byline .date").text().trim()
+            title: $(item).find("a.title").text().trim(),
+            url: "https://blog.qiniu.com" + $(item).find("a.title").attr("href"),
+            date: $(item).find(".entry-date a").text().trim()
           });
         });
     }
@@ -81,10 +81,10 @@ class LaruenceService extends Service {
         console.log(`✅ (${i + 1}/${list.length}) ${item.url}`);
       } catch (e) {
         console.log(`❌ (${i + 1}/${list.length}) ${item.url}`);
-        ctx.logger.error("Error while LaruenceService.refresh, stack: ", e);
+        ctx.logger.error("Error while QiniuService.refresh, stack: ", e);
       }
     }
   }
 }
 
-module.exports = LaruenceService;
+module.exports = QiniuService;

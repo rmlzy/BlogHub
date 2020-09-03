@@ -50,7 +50,7 @@ class BaijunyaoService extends Service {
     const list = [];
     for (let i = 1; i <= total; i++) {
       const url = `https://baijunyao.com/?page=${i}`;
-      console.log(`🔨 (${i + 1}/${total}) ${url}`);
+      console.log(`🔨 (${i}/${total}) ${url}`);
       const res = await ctx.curl(url, { type: "GET", dataType: "text", timeout: 10000 });
       const $ = cheerio.load(res.data);
       $(".b-one-article")

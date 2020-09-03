@@ -39,6 +39,10 @@ class ViewController extends Controller {
         logo: "/public/img/disdev-logo.jpg",
       },
       {
+        name: "七牛云博客",
+        logo: "/public/img/qiniu-logo.png",
+      },
+      {
         name: "风雪之隅",
         logo: "",
       },
