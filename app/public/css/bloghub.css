@@ -2681,6 +2681,12 @@ body {
 .article {
   padding: 0 10px;
 }
+.article img {
+  display: block;
+  margin: 16px auto;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .loading__wrapper {
   text-align: center;
   padding: 250px 0;

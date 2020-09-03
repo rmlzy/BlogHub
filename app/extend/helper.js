@@ -1,15 +1,29 @@
 "use strict";
 
+
+const MarkdownIt = require("markdown-it");
+const hljs = require("highlight.js");
 const timeago = require("timeago.js");
 const minify = require("html-minifier-terser").minify;
-const showdown = require("showdown");
 const TurndownService = require("turndown");
 const turndownService = new TurndownService();
-const converter = new showdown.Converter();
+const md = MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) {}
+    }
+    return "";
+  },
+});
 
 module.exports = {
-  md2html(md) {
-    return converter.makeHtml(md);
+  md2html(markdown) {
+    return md.render(markdown);
   },
 
   html2md(html) {
