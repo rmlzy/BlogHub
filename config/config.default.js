@@ -14,6 +14,12 @@ module.exports = (appInfo) => {
     pageUrl: "/404.html",
   };
 
+  // 安全配置
+  config.security = {
+    // 关闭 csrf 防范
+    csrf: false,
+  };
+
   // 模板引擎配置
   // https://mozilla.github.io/nunjucks/
   config.view = {
