@@ -3,7 +3,7 @@
 module.exports = (appInfo) => {
   const config = (exports = {});
 
-  config.keys = appInfo.name + "_codehub";
+  config.keys = appInfo.name + "_bloghub";
 
   config.middleware = ["locals"];
 

@@ -2619,11 +2619,11 @@ body {
 .theme-light .post__title:visited {
   color: #999 !important;
 }
-.codehub .header {
+.bloghub .header {
   position: relative;
   height: 60px;
 }
-.codehub .header__logo {
+.bloghub .header__logo {
   font-size: 25px;
   font-weight: 800;
   line-height: 60px;
@@ -2631,14 +2631,15 @@ body {
   text-decoration: none !important;
   padding: 0 10px;
 }
-.codehub .header__logo span {
+.bloghub .header__logo span {
   font-size: 15px;
   color: #737373;
+  font-weight: normal;
 }
-.codehub main {
+.bloghub main {
   min-height: 800px;
 }
-.codehub footer {
+.bloghub footer {
   margin-top: 20px;
   color: #737373;
   padding: 0 10px;

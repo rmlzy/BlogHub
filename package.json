@@ -1,7 +1,7 @@
 {
-  "name": "codehub",
+  "name": "bloghub",
   "version": "1.0.0",
-  "description": "Collect valuable articles about development.",
+  "description": "让阅读更有效率",
   "private": true,
   "egg": {
     "declarations": true
@@ -32,8 +32,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=codehub --port=1031",
-    "stop": "egg-scripts stop --title=codehub",
+    "start": "egg-scripts start --daemon --title=bloghub --port=1031",
+    "stop": "egg-scripts stop --title=bloghub",
     "dev": "egg-bin dev --port=1031",
     "debug": "egg-bin debug",
     "test": "npm run test-local",

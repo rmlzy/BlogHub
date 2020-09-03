@@ -51,7 +51,7 @@ class ViewController extends Controller {
         logo: "",
       },
     ];
-    await ctx.render("posts.html", { title: "Codehub", sources });
+    await ctx.render("posts.html", { title: "BlogHub", sources });
   }
 
   async renderPost() {
