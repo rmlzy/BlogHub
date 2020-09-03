@@ -25,7 +25,7 @@ class RefreshSchedule extends Subscription {
       await ctx.service.yinwang.refresh(true);
       await ctx.service.youzan.refresh(true);
     } catch (e) {
-      ctx.logger.error("抓取码力全开设计资源失败: ", e);
+      ctx.logger.error("RefreshSchedule Error: ", e);
     }
   }
 }
