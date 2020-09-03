@@ -1,5 +1,6 @@
 @import "grid";
 @import "markdown";
+@import "loading";
 
 body {
   font-family: PingFang SC, Tahoma, Helvetica, Arial, Hiragino Sans GB, Microsoft YaHei, Heiti SC, WenQuanYi Micro Hei,
@@ -7,6 +8,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 14px;
+  color: #333;
 }
 
 * {
@@ -65,9 +67,10 @@ body {
       line-height: 60px;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, Helvetica, STKaiti, SimSun, serif;
       text-decoration: none !important;
+      padding: 0 10px;
 
       span {
-        font-size: 14px;
+        font-size: 15px;
         color: #737373;
       }
     }
@@ -79,25 +82,20 @@ body {
 
   footer {
     margin-top: 20px;
-  }
-
-  .footer {
-    height: 80px;
-    line-height: 80px;
-    font-size: 14px;
-    color: #333;
+    color: #737373;
+    padding: 0 10px;
   }
 }
 
 .post {
-  padding: 30px 10px;
+  padding: 20px 10px;
 
   &:last-child {
     border-bottom: none;
   }
 
   &__list {
-    min-height: 800px;
+    min-height: 100vh;
   }
 
   &__title {
@@ -128,6 +126,22 @@ body {
 
   &__meta {
     color: #999;
+  }
+}
+
+.article {
+  padding: 0 10px;
+}
+
+.loading__wrapper {
+  text-align: center;
+  padding: 250px 0;
+  display: none;
+
+  p {
+    margin: 0;
+    margin-left: -8px;
+    color: #737373;
   }
 }
 
@@ -202,10 +216,8 @@ body {
   cursor: pointer;
   height: 40px;
   line-height: 40px;
-  font-size: 14px;
+  font-size: 15px;
   width: 100%;
-  font-weight: 500;
-  color: gray;
   border: 1px solid #d7d8db;
   position: relative;
   border-radius: 6px;

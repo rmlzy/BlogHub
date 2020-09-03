@@ -3,15 +3,17 @@
 <!-- Body -->
 {% block body %}
 <div class="container">
-  <div class="source">
-    <span class="source__from">来源: {{ blog.from }}</span>
-    <a class="source__origin" href="{{ blog.url }}" target="_blank" title="{{ blog.title }}">访问原网址</a>
-  </div>
-  <div class="markdown-body">
-    <h1>{{ blog.title }}</h1>
-    {{ blog.content | safe }}
-    <br />
-  </div>
+  <article class="article">
+    <div class="source">
+      <span class="source__from">来源: {{ blog.from }}</span>
+      <a class="source__origin" href="{{ blog.url }}" target="_blank" title="{{ blog.title }}">访问原网址</a>
+    </div>
+    <div class="markdown-body">
+      <h1>{{ blog.title }}</h1>
+      {{ blog.content | safe }}
+      <br />
+    </div>
+  </article>
 </div>
 
 {% endblock %}

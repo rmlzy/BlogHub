@@ -5,8 +5,28 @@
 <div class="container">
   <div class="row">
     <div class="col-md-16 col-sm-24 col-xs-24">
-      <div id="js_postList" class="post__list"></div>
-      <div id="js_loadMore" class="load-more">加载更多</div>
+      <div id="js_postList" class="post__list">
+        <div id="js_loading" class="loading__wrapper">
+          <div class="loading">
+            <div class="loading-inner">
+              <div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+          <p>稍等片刻...</p>
+        </div>
+      </div>
+      <div style="padding: 0 10px">
+        <div id="js_loadMore" class="load-more">加载更多</div>
+      </div>
     </div>
     <div class="col-md-8 hidden-sm hidden-xs">
       <div class="side">
@@ -41,10 +61,14 @@
     var currentSize = 30;
     var total = 0;
     var $list = $("#js_postList");
+    var $loading = $("#js_loading");
     var loading = false;
     fetchData(currentCategory, currentPage, currentSize);
 
     function fetchData(category, page, size, cb) {
+      if (page === 1) {
+        $loading.show();
+      }
       $.ajax({
         type: "GET",
         url: "/api/post?category=" + category + "&page=" + page + "&size=" + size,
@@ -71,6 +95,9 @@
                 "   </div>" +
                 "</div>"
             );
+          }
+          if (page === 1) {
+            $loading.hide();
           }
           $list.append(htmls.join(""));
           if (cb) cb();
