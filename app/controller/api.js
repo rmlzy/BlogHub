@@ -5,7 +5,7 @@ const Controller = require("egg").Controller;
 class ApiController extends Controller {
   async load() {
     const { ctx, service } = this;
-    const weekly = await service.laruence.refresh(false);
+    const weekly = await service.baijunyao.refresh(false);
     ctx.body = { success: true, message: "操作成功", data: weekly };
   }
 
