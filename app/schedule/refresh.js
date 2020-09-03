@@ -5,7 +5,7 @@ class RefreshSchedule extends Subscription {
     return {
       cron: "0 0 0/2 * * ? ", // 每两个小时执行一次
       type: "all",
-      immediate: true,
+      immediate: false,
     };
   }
 

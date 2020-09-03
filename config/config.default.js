@@ -7,7 +7,7 @@ module.exports = (appInfo) => {
 
   config.middleware = ["locals"];
 
-  config.version = "2020-09-04";
+  config.version = "2020-09-05";
 
   // 路由无法匹配
   config.notfound = {
