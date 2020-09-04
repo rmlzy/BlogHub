@@ -77,6 +77,9 @@ class ViewController extends Controller {
     try {
       blog = await service.post.findOne({ where: { id } });
       blog.content = ctx.helper.md2html(blog.content);
+      ctx.runInBackground(async () => {
+        await ctx.service.post.update({ readCount: blog.readCount + 1 }, { where: { id } });
+      });
     } catch (e) {
       ctx.logger.error("Error while ViewController.renderPost, stack: ", e);
     }
