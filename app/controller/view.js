@@ -50,6 +50,22 @@ class ViewController extends Controller {
         name: "白俊遥博客",
         logo: "",
       },
+      {
+        name: "CSS Weekly",
+        logo: "/public/img/cssweekly-logo.png",
+      },
+      {
+        name: "JavaScript Weekly",
+        logo: "/public/img/jsweekly-logo.jpg",
+      },
+      {
+        name: "Node Weekly",
+        logo: "/public/img/node-weekly-logo.jpg",
+      },
+      {
+        name: "Frontend Focus",
+        logo: "/public/img/frontend-focus-logo.jpg",
+      },
     ];
     await ctx.render("posts.html", { title: "BlogHub", sources });
   }

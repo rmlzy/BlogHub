@@ -2,24 +2,21 @@ const Service = require("egg").Service;
 const cheerio = require("cheerio");
 
 /**
- * 科技爱好者周刊
- * http://www.ruanyifeng.com/blog/weekly/
+ * CSS Weekly
+ * https://css-weekly.com/archives/
  */
-class RyfService extends Service {
-  async _savePost({ url }) {
+class CssWeeklyService extends Service {
+  async _savePost({ url, title, date }) {
     const { ctx, service } = this;
     const res = await ctx.curl(url, { type: "GET", dataType: "text" });
     const $ = cheerio.load(res.data, { decodeEntities: false });
-    const $body = $("#alpha-inner");
-    const title = $body.find("#page-title").text();
-    const date = $body.find(".asset-footer .published").attr("title");
-    const html = $body.find("#main-content").html();
+    const html = $(".newsletter-web").html();
     const markdown = ctx.helper.html2md(html);
     const post = {
       url,
       title,
       timestamp: +new Date(date),
-      from: "科技爱好者周刊",
+      from: "CSS Weekly",
       content: markdown,
       wordCount: markdown.length,
       readCount: 0,
@@ -39,15 +36,17 @@ class RyfService extends Service {
 
   async _fetchPostList() {
     const { ctx } = this;
-    const url = "http://www.ruanyifeng.com/blog/weekly/";
+    const url = "https://css-weekly.com/archives/";
     const list = [];
     const res = await ctx.curl(url, { type: "GET", dataType: "text" });
     const $ = cheerio.load(res.data);
-    $("#alpha-inner .module-list-item")
+    $(".archives-list article")
       .get()
       .map((item) => {
         list.push({
-          url: $(item).find("a").attr("href"),
+          url: $(item).find("h3.title a").attr("href"),
+          title: "CSS Weekly " + $(item).find("h3.title a").text(),
+          date: $(item).find("time").attr("datetime"),
         });
       });
     return list;
@@ -68,10 +67,10 @@ class RyfService extends Service {
         console.log(`✅ (${i + 1}/${list.length}) ${item.url}`);
       } catch (e) {
         console.log(`❌ (${i + 1}/${list.length}) ${item.url}`);
-        ctx.logger.error("Error while RyfService.refresh, stack: ", e);
+        ctx.logger.error("Error while CssWeeklyService.refresh, stack: ", e);
       }
     }
   }
 }
 
-module.exports = RyfService;
+module.exports = CssWeeklyService;
