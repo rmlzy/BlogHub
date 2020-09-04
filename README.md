@@ -40,6 +40,10 @@ A：主要是研发相关的，只采集了更新频繁的优质博客，具体�
     + [奇舞周刊](https://weekly.75.team/)
     + [科技爱好者周刊](http://www.ruanyifeng.com/blog/weekly/)
     + [DiscoverDev](https://www.discoverdev.io/archive)
+    + [CSS Weekly](https://css-weekly.com/archives/)
+    + [JavaScript Weekly](https://javascriptweekly.com/issues)
+    + [Node Weekly](https://nodeweekly.com/issues)
+    + [Frontend Focus](https://frontendfoc.us/issues)
 
 ## TODO
 + [x] 支持夜间模式
