@@ -70,6 +70,10 @@ class ViewController extends Controller {
         name: "Github Trending",
         logo: "",
       },
+      {
+        name: "码力全开",
+        logo: "/public/img/mlqk-logo.png",
+      },
     ];
     await ctx.render("posts.html", { title: "BlogHub", sources });
   }
