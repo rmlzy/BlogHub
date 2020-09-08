@@ -5,7 +5,7 @@ const Controller = require("egg").Controller;
 class ApiController extends Controller {
   async load() {
     const { ctx, service } = this;
-    await service.frontendFocus.refresh(true);
+    await service.githubTrending.refresh(true);
     ctx.body = { success: true, message: "操作成功" };
   }
 

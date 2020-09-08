@@ -66,6 +66,10 @@ class ViewController extends Controller {
         name: "Frontend Focus",
         logo: "/public/img/frontend-focus-logo.jpg",
       },
+      {
+        name: "Github Trending",
+        logo: "",
+      },
     ];
     await ctx.render("posts.html", { title: "BlogHub", sources });
   }

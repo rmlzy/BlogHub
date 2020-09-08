@@ -44,6 +44,7 @@ A：主要是研发相关的，只采集了更新频繁的优质博客，具体�
     + [JavaScript Weekly](https://javascriptweekly.com/issues)
     + [Node Weekly](https://nodeweekly.com/issues)
     + [Frontend Focus](https://frontendfoc.us/issues)
+    + [Github Trending](http://util.city/tool/trending.html)
 
 ## TODO
 + [x] 支持夜间模式
