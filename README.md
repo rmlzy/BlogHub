@@ -36,6 +36,7 @@ A：主要是研发相关的，只采集了更新频繁的优质博客，具体�
     + [风雪之隅](https://www.laruence.com/)
     + [歪麦博客](https://www.awaimai.com/)
     + [白俊遥博客](https://baijunyao.com/)
+    + [码力全开](https://www.maliquankai.com/)
 + 周刊类：
     + [奇舞周刊](https://weekly.75.team/)
     + [科技爱好者周刊](http://www.ruanyifeng.com/blog/weekly/)
