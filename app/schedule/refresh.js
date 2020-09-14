@@ -23,6 +23,7 @@ class RefreshSchedule extends Subscription {
       await ctx.service.ryf.refresh(true);
       await ctx.service.yinwang.refresh(true);
       await ctx.service.youzan.refresh(true);
+      await ctx.service.githubTrending.refresh(true);
     } catch (e) {
       ctx.logger.error("RefreshSchedule Error: ", e);
     }
